@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SounTunes | Immersive Music Experience</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+        <link rel="apple-touch-icon" sizes="512x512" href="favicon.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.globe.min.js"></script>
+        <style>:root { --primary: #1db954; --primary-dark: #179a46; --dark: #121212; --darker: #0a0a0a; --light: #f5f5f5; --gray: #b3b3b3; --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); } * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } body { background: var(--darker); color: var(--light); overflow-x: hidden; min-height: 100vh; position: relative; } #vanta-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; } .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; } /* Header & Navigation */header { padding: 20px 0; position: sticky; top: 0; z-index: 1000; background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(29, 185, 84, 0.2); transition: var(--transition); } .header-content { display: flex; justify-content: space-between; align-items: center; position: relative; } .logo { font-size: 2.5rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 3px; display: flex; align-items: center; gap: 10px; z-index: 1001; } .logo i { animation: pulse 2s infinite; } @keyframes pulse { 0% {  transform: scale(1); }  50% {  transform: scale(1.1); }  100% {  transform: scale(1); } } .nav-links { display: flex; gap: 30px; } .nav-links a { color: var(--light); text-decoration: none; font-weight: 600; font-size: 1.1rem; position: relative; padding: 5px 0; transition: var(--transition); } .nav-links a:after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--primary); transition: var(--transition); } .nav-links a:hover { color: var(--primary); } .nav-links a:hover:after { width: 100%; } .social-icons { display: flex; gap: 15px; } .social-icons a { color: var(--light); font-size: 1.3rem; transition: var(--transition); } .social-icons a:hover { color: var(--primary); transform: translateY(-3px); } /* Hamburger Menu (Mobile) */.hamburger-menu { display: none; flex-direction: column; justify-content: space-between; width: 30px; height: 21px; cursor: pointer; z-index: 1001; } .hamburger-menu span { height: 3px; width: 100%; background-color: var(--light); border-radius: 3px; transition: var(--transition); transform-origin: center; } /* Mobile Navigation */.mobile-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999; opacity: 0; visibility: hidden; transition: var(--transition); } .mobile-nav.active { opacity: 1; visibility: visible; } .mobile-nav-links { display: flex; flex-direction: column; gap: 30px; text-align: center; } .mobile-nav-links a { color: var(--light); text-decoration: none; font-size: 2rem; font-weight: 700; transition: var(--transition); position: relative; padding: 10px 20px; } .mobile-nav-links a:hover { color: var(--primary); transform: translateY(-5px); } .mobile-nav-links a:after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 3px; background: var(--primary); transition: var(--transition); } .mobile-nav-links a:hover:after { width: 100%; } .mobile-social-icons { margin-top: 50px; display: flex; gap: 20px; } .mobile-social-icons a { color: var(--light); font-size: 2rem; transition: var(--transition); } .mobile-social-icons a:hover { color: var(--primary); transform: translateY(-5px); } /* Hamburger Animation */.hamburger-menu.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); } .hamburger-menu.active span:nth-child(2) { opacity: 0; } .hamburger-menu.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); } /* Hero Section */.hero { padding: 100px 0; text-align: center; position: relative; } .hero h1 { font-size: 4.5rem; margin-bottom: 22px; background: linear-gradient(to right, var(--light), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; } .hero p { font-size: 1.5rem; max-width: 800px; margin: 0 auto 40px; color: var(--gray); line-height: 1.6; } .cta-button { display: inline-block; background: var(--primary); color: var(--darker); padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1.5px; transition: var(--transition); border: 2px solid var(--primary); box-shadow: 0 10px 25px rgba(29, 185, 84, 0.3); } .cta-button:hover { background: transparent; color: var(--primary); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(29, 185, 84, 0.4); } /* Video Gallery */.section-title { font-size: 2.5rem; text-align: center; margin: 70px 0 50px; position: relative; display: inline-block; left: 50%; transform: translateX(-50%); } .section-title:after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: var(--primary); border-radius: 2px; } .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 100px; } .video-card { background: rgba(30, 30, 30, 0.7); border-radius: 15px; overflow: hidden; transition: var(--transition); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); } .video-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(29, 185, 84, 0.2); border-color: rgba(29, 185, 84, 0.3); } .video-thumbnail { position: relative; height: 200px; overflow: hidden; } .video-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); } .video-card:hover .video-thumbnail img { transform: scale(1.1); } .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: rgba(29, 185, 84, 0.8); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: var(--transition); } .video-card:hover .play-icon { opacity: 1; } .play-icon i { color: white; font-size: 1.5rem; } .video-info { padding: 20px; } .video-info h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--light); } .video-info p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; } /* About Section */.about { padding: 100px 0; background: rgba(10, 10, 10, 0.7); position: relative; margin: 100px 0; } .about-content { display: flex; align-items: center; gap: 50px; max-width: 1200px; margin: 0 auto; } .about-text { flex: 1; } .about-text h2 { font-size: 2.5rem; margin-bottom: 30px; color: var(--primary); } .about-text p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; color: var(--gray); } .about-image { flex: 1; position: relative; border-radius: 20px; overflow: hidden; height: 400px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); transform: perspective(1000px) rotateY(5deg); border: 2px solid var(--primary); } .about-image img { width: 100%; height: 100%; object-fit: cover; } /* Social Media */.social-section { text-align: center; padding: 50px 0 100px; } .social-title { font-size: 2rem; margin-bottom: 20px; color: var(--primary); } .social-subtitle { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: var(--gray); } .social-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 800px; margin: 0 auto; } .social-button { display: flex; align-items: center; gap: 10px; background: rgba(30, 30, 30, 0.7); padding: 15px 30px; border-radius: 50px; text-decoration: none; color: var(--light); font-weight: 600; transition: var(--transition); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); } .social-button:hover { background: var(--primary); transform: translateY(-5px); color: var(--darker); box-shadow: 0 10px 25px rgba(29, 185, 84, 0.3); } /* Footer */footer { background: rgba(10, 10, 10, 0.9); padding: 60px 0 30px; border-top: 1px solid rgba(29, 185, 84, 0.2); } .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; } .footer-column h3 { font-size: 1.5rem; margin-bottom: 25px; color: var(--primary); position: relative; display: inline-block; } .footer-column h3:after { content: ''; position: absolute; bottom: -10px; left: 0; width: 50px; height: 3px; background: var(--primary); } .footer-links { list-style: none; } .footer-links li { margin-bottom: 15px; } .footer-links a { color: var(--gray); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 10px; } .footer-links a:hover { color: var(--primary); transform: translateX(5px); } .copyright { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: var(--gray); font-size: 0.9rem; } /* Video Modal */.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 2000; align-items: center; justify-content: center; } .modal-content { width: 90%; max-width: 1000px; position: relative; } .close-modal { position: absolute; top: -50px; right: 0; color: white; font-size: 2rem; cursor: pointer; transition: var(--transition); } .close-modal:hover { color: var(--primary); } .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; } .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; } /* Responsive Design */@media (max-width: 1200px) { .hero h1 {  font-size: 3.8rem; } } @media (max-width: 992px) { .hero h1 {  font-size: 3.2rem; }  .about-content {  flex-direction: column; }  .nav-links, .social-icons {  display: none; }  .hamburger-menu {  display: flex; }  .header-logo {  width: 15%; } } @media (max-width: 768px) { .header-content {  gap: 20px; }  .hero h1 {  font-size: 2.8rem; }  .hero p {  font-size: 1.2rem; }  .section-title {  font-size: 2rem; }  .video-grid {  grid-template-columns: 1fr; }  .header-logo {  width: 25%; } } @media (max-width: 576px) { .hero h1 {  font-size: 2.2rem; }  .hero p {  font-size: 1.1rem; }  .cta-button {  padding: 12px 30px;  font-size: 1rem; }  .header-logo {  width: 35%; }  .social-button {  padding: 12px 20px;  font-size: 0.9rem; } }</style>
+    </head>
+    <body>
+        <!-- 3D Background -->
+        <div id="vanta-bg"></div>
+        <!-- Header -->
+        <header style="left: 81px; bottom: -25px;">
+            <div class="container" style="margin-bottom: -11px;">
+                <div class="header-content" style="margin-bottom: -8px;">
+                    <div class="logo">
+</div>
+                    <nav class="nav-links" style="left: 111px; margin-left: 322px;">
+                        <a href="#home" style="margin-bottom: -10px; bottom: 3px;">Home</a>
+                        <a href="#videos" style="margin-bottom: -10px; bottom: 3px;">Videos</a>
+                        <a href="#about" style="margin-bottom: -10px; bottom: 3px;">About</a>
+                        <a href="#social" style="margin-bottom: -10px; bottom: 3px;">Connect</a>
+                        <a href="#contact" style="margin-bottom: -10px; bottom: 3px;">Contact</a>
+                    </nav>
+                    <div class="social-icons" style="margin-bottom: -16px;">
+                        <a href="https://youtube.com/channel/UCjiU7MqCK40TUjg__eeUIog?sub_confirmation=1" target="_blank"><i class="fab fa-youtube" style="margin-bottom: 15px; bottom: -10px;"></i></a>
+                        <a href="https://instagram.com/sountunes" target="_blank"><i class="fab fa-instagram" style="margin-bottom: 15px; bottom: -10px; margin-left: 2px;"></i></a>
+                        <a href="https://x.com/SounTunes" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://discord.gg/6DbxjpMF2p" target="_blank"><i class="fab fa-discord" style="margin-bottom: 15px; bottom: -10px; margin-left: -13px;"></i></a>
+                    </div>
+                    <!-- Hamburger Menu -->
+                    <div class="hamburger-menu" style="left: -18px; margin-bottom: -3px; margin-left: 6px; margin-right: 10px;">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <img src="logo.png" width="175" style="margin: -37px -36px 6px 5px;"/>
+            </div>
+        </header>
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav">
+            <div class="mobile-nav-links">
+                <a href="#home">Home</a>
+                <a href="#videos">Videos</a>
+                <a href="#about">About</a>
+                <a href="#social">Connect</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="mobile-social-icons">
+                <a href="https://youtube.com/channel/UCjiU7MqCK40TUjg__eeUIog?sub_confirmation=1" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://instagram.com/sountunes" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/SounTunes" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://discord.gg/6DbxjpMF2p" target="_blank"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <h1>Experience Music In 3D</h1>
+                <p>Dynamic and visually engaging music videos that bring every beat and lyric to life. Join me on a journey where music transforms into unforgettable visual experiences.</p>
+                <a href="#videos" class="cta-button">Watch Videos</a>
+            </div>
+        </section>
+        <!-- Video Gallery -->
+        <section class="videos" id="videos">
+            <div class="container">
+                <h2 class="section-title">Featured Videos</h2>
+                <div class="video-grid">
+                    <!-- Video cards will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>About SounTunes</h2>
+                        <p>Welcome to SounTunes! I create dynamic and visually engaging music videos that bring every beat and lyric to life. Combining my love for music, my channel is all about delivering a unique visual experience that resonates with music lovers everywhere.</p>
+                        <p>From original creations to exciting collaborations, each video is crafted with passion and creativity. Subscribe and join me as I turn music into unforgettable visual journeys.</p>
+                        <p>Your support means the world - let's create something amazing together!</p>
+                    </div>
+                    <div class="about-image">
+                        <img alt="SounTunes Visual Experience" src="image.jpg">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Social Media Section -->
+        <section class="social-section" id="social">
+            <div class="container">
+                <h2 class="social-title">Connect With Me</h2>
+                <p class="social-subtitle">Follow SounTunes on all platforms to stay updated with the latest releases and behind-the-scenes content.</p>
+                <div class="social-buttons">
+                    <a href="https://youtube.com/channel/UCjiU7MqCK40TUjg__eeUIog?sub_confirmation=1" target="_blank" class="social-button"> <i class="fab fa-youtube"></i> YouTube </a>
+                    <a href="https://instagram.com/sountunes" target="_blank" class="social-button"> <i class="fab fa-instagram"></i> Instagram </a>
+                    <a href="https://x.com/SounTunes" target="_blank" class="social-button"> <i class="fab fa-x-twitter"></i> Twitter </a>
+                    <a href="https://facebook.com/share/1XrKMMFX6t/?mibextid=wwXIfr" target="_blank" class="social-button"> <i class="fab fa-facebook"></i> Facebook </a>
+                    <a href="https://tiktok.com/@sountunes" target="_blank" class="social-button"> <i class="fab fa-tiktok"></i> TikTok </a>
+                    <a href="https://discord.gg/6DbxjpMF2p" target="_blank" class="social-button"> <i class="fab fa-discord"></i> Discord </a>
+                    <a href="https://soundcloud.com/sountunes" target="_blank" class="social-button"> <i class="fab fa-soundcloud"></i> SoundCloud </a>
+                    <a href="https://twitch.tv/sountunes" target="_blank" class="social-button"> <i class="fab fa-twitch"></i> Twitch </a>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column" style="bottom: 30px;">
+                        <img src="logo.png" alt="SounTunes Logo" width="150" style="left: 55px; margin-bottom: 15px;">
+                        <p>Creating immersive music experiences that transform sound into visual journeys.</p>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul class="footer-links">
+                            <li>
+                                <a href="#home"><i class="fas fa-arrow-right"></i> Home</a>
+                            </li>
+                            <li>
+                                <a href="#videos"><i class="fas fa-arrow-right"></i> Videos</a>
+                            </li>
+                            <li>
+                                <a href="#about"><i class="fas fa-arrow-right"></i> About</a>
+                            </li>
+                            <li>
+                                <a href="#social"><i class="fas fa-arrow-right"></i> Connect</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Contact</h3>
+                        <ul class="footer-links">
+                            <li>
+                                <a href="https://linktr.ee/SounTunes" target="_blank"><i class="fas fa-link"></i> Linktree</a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&to=sountunes@gmail.com"><i class="fas fa-envelope"></i> Email</a>
+                            </li>
+                            <li>
+                                <a href="https://discord.gg/6DbxjpMF2p" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    &copy; 2025 SounTunes. All Rights Reserved. | Immersive Music Experience
+</div>
+            </div>
+        </footer>
+        <!-- Video Modal -->
+        <div class="modal" id="videoModal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="video-container">
+                    <iframe id="ytPlayer" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <script>
+        // Initialize Vanta.js 3D background with enhanced quality
+        VANTA.GLOBE({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.50,  // Increased for better quality
+            scaleMobile: 1.20,  // Increased for mobile quality
+            color: 0x1db954,
+            backgroundColor: 0x0a0a0a,
+            size: 1.30,  // Increased for better quality
+            amplitudeFactor: 3.00,  // Added for more detail
+            amplitudeSpeed: 1.00,   // Added for smoother animation
+            zoom: 0.9               // Slightly zoomed out for better view
+        });
+        
+        // YouTube video data
+        const videos = [
+            { id: "3Ejk73C80l0", title: "Epic Cinematic Journey", desc: "Immersive visual experience with powerful beats" },
+            { id: "XSxQoASJtAY", title: "Synthwave Dreams", desc: "Neon-lit journey through retro soundscapes" },
+            { id: "no2bmSC4khY", title: "Ambient Reflections", desc: "Soothing melodies for deep relaxation" },
+            { id: "SwVwtvTAqW4", title: "Urban Rhythms", desc: "City beats and street vibes combined" },
+            { id: "qLOP-oet-lo", title: "Nature's Symphony", desc: "Organic sounds blended with electronic elements" },
+            { id: "S_XXBddRlzI", title: "Futuristic Soundscapes", desc: "Exploring tomorrow's music today" },
+            { id: "JbHBtkLZkQQ", title: "Deep Bass Expedition", desc: "Subwoofer-friendly beats with immersive visuals" },
+            { id: "hAnCm8Rzca0", title: "Chillstep Vibes", desc: "Relaxing beats for your downtime" },
+            { id: "ESbQdZ9qx_A", title: "Electronic Evolution", desc: "The progression of electronic music through visuals" },
+            { id: "03X37DY7VYQ", title: "Melodic Harmony", desc: "Beautiful melodies that tell a story" }
+        ];
+        
+        // Generate video grid
+        const videoGrid = document.querySelector('.video-grid');
+        
+        videos.forEach(video => {
+            const videoCard = document.createElement('div');
+            videoCard.className = 'video-card';
+            videoCard.innerHTML = `
+                <div class="video-thumbnail">
+                    <img src="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg" alt="${video.title}">
+                    <div class="play-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3>${video.title}</h3>
+                    <p>${video.desc}</p>
+                </div>
+            `;
+            
+            videoCard.addEventListener('click', () => {
+                openVideoModal(video.id);
+            });
+            
+            videoGrid.appendChild(videoCard);
+        });
+        
+        // Modal functionality
+        const modal = document.getElementById('videoModal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const ytPlayer = document.getElementById('ytPlayer');
+        
+        function openVideoModal(videoId) {
+            ytPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&color=white&theme=dark&enablejsapi=1`;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            ytPlayer.src = '';
+            document.body.style.overflow = 'auto';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                ytPlayer.src = '';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+                
+                // Close mobile menu if open
+                if (hamburgerMenu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.5)';
+                header.style.padding = '15px 0';
+            } else {
+                header.style.boxShadow = 'none';
+                header.style.padding = '20px 0';
+            }
+        });
+        
+        // Mobile menu functionality
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        function toggleMobileMenu() {
+            hamburgerMenu.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : 'auto';
+        }
+        
+        hamburgerMenu.addEventListener('click', toggleMobileMenu);
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', toggleMobileMenu);
+        });
+        </script>
+        <video>Your browser doesn't support HTML5 video tag.</video>
+    </body>
+</html>
